@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProfileService", "ProfileService\ProfileService.csproj", "{C4388269-41AA-48A6-B435-3B1C40BEE70E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TweetService", "TweetService\TweetService.csproj", "{4399666D-EC4B-405A-8CA3-56134BB7E20C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TweetService", "TweetService\TweetService.csproj", "{CEA0CC0B-3F5C-40F4-B931-B0AEA2331EB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{C4388269-41AA-48A6-B435-3B1C40BEE70E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4388269-41AA-48A6-B435-3B1C40BEE70E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4388269-41AA-48A6-B435-3B1C40BEE70E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4399666D-EC4B-405A-8CA3-56134BB7E20C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4399666D-EC4B-405A-8CA3-56134BB7E20C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4399666D-EC4B-405A-8CA3-56134BB7E20C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4399666D-EC4B-405A-8CA3-56134BB7E20C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEA0CC0B-3F5C-40F4-B931-B0AEA2331EB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEA0CC0B-3F5C-40F4-B931-B0AEA2331EB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEA0CC0B-3F5C-40F4-B931-B0AEA2331EB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEA0CC0B-3F5C-40F4-B931-B0AEA2331EB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
