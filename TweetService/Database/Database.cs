@@ -19,7 +19,7 @@ namespace TweetService.Database
                 optionsBuilder.UseInMemoryDatabase("Database");
             }
 
-            public static int AddTweet(Tweet tweet)
+            public int AddTweet(Tweet tweet)
             {
                 tweet.Id = nextTweetId++;
                 using (var context = new TweetContext())
