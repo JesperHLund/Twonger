@@ -9,20 +9,21 @@ namespace ProfileService.Database
         {
             public DbSet<Profile> Profiles { get; set; }
 
+            private int profileId = 0;
+
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
                 optionsBuilder.UseInMemoryDatabase("Database");
             }
 
-            protected override void OnModelCreating(ModelBuilder modelBuilder)
+            public void AddProfile(Profile profile)
             {
-                // Configure the Profile entity
-                modelBuilder.Entity<Profile>().HasKey(p => p.UserId);
-                // Add any additional configuration for the Profile entity
-
-                // Configure any other entities and their relationships here
-
-                base.OnModelCreating(modelBuilder);
+                profile.UserId = profileId++;
+                using(var context = new ProfileContext())
+                {
+                    context.Profiles.Add(profile);
+                    context.SaveChanges();
+                }
             }
         }
     }
