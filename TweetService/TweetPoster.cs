@@ -4,22 +4,28 @@ namespace TweetService
 {
     public class TweetPoster
     {
-        private Database.Database.TweetContext Database;
+        private readonly Database.Database _database;
+
+        public TweetPoster(Database.Database database)
+        {
+            _database = database;
+        }
+
         public bool PostTweet(Tweet tweet)
         {
-            if (Database.AddTweet(tweet) != -1)
+            if (_database.AddTweet(tweet) != -1)
             {
-                //return false if tweet is not added
-                return false;
+                tweet.Id = _database.AddTweet(tweet);
+
+                // Tweet added successfully, implement logic to send tweet to ProfileService
+                //rabbitmq stuff? I don't fucking know
+
+                return true;
             }
-            else 
+            else
             {
-                //code something to send tweet to ProfileService if tweet is added
-                //implement messaging to ProfileService
-
-
-                //return true if tweet is added
-                return true;    
+                // Tweet was not added
+                return false;
             }
         }
     }
