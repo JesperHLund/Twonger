@@ -2,8 +2,7 @@
 {
     public class Tweet
     {
-        //write ma tweet class containing id and message
-
+        
         public int Id { get; set; }
         public string Body { get; set; }
         public int UserID { get; set; }

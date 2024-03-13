@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿using Microsoft.AspNetCore.SignalR.Protocol;
+using System.Runtime.CompilerServices;
+using SharedMessages;
 
 namespace TweetService
 {
@@ -6,9 +8,12 @@ namespace TweetService
     {
         private readonly Database.Database _database;
 
-        public TweetPoster(Database.Database database)
+        private readonly MessageClient _messageClient;
+
+        public TweetPoster(Database.Database database, MessageClient messageClient)
         {
             _database = database;
+            _messageClient = messageClient;
         }
 
         public bool PostTweet(Tweet tweet)
@@ -16,9 +21,14 @@ namespace TweetService
             if (_database.AddTweet(tweet) != -1)
             {
                 tweet.Id = _database.AddTweet(tweet);
-
+               
                 // Tweet added successfully, implement logic to send tweet to ProfileService
                 //rabbitmq stuff? I don't fucking know
+
+                _messageClient.Send(
+                    new TweetMessage { tweet = tweet },
+                    "tweet-message"
+                    );
 
                 return true;
             }
