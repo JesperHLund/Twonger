@@ -18,7 +18,7 @@ namespace TweetService.Controllers
         }
 
         [HttpPost]
-        public bool PostTweet([FromBody] Tweet tweet)
+        public bool PostTweet([FromBody] SharedMessages.Tweet tweet)
         {
             //Attempts to add tweet to database and takes the returned value and adds it to the tweetId variable
             int tweetId = _database.AddTweet(tweet);

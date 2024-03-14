@@ -11,7 +11,7 @@ namespace TweetService.Database
         {
 
             //Database Tweet sets
-            public DbSet<Tweet> Tweets { get; set; }
+            public DbSet<SharedMessages.Tweet> Tweets { get; set; }
 
             //Database NextTweetId sets
             public DbSet<NextTweetId> NextTweetIds { get; set; }
@@ -39,7 +39,7 @@ namespace TweetService.Database
         }
 
         //Adds a tweet to the database
-        public int AddTweet(Tweet tweet)
+        public int AddTweet(SharedMessages.Tweet tweet)
         {
             var nextTweetId = _context.NextTweetIds.First().NextId;
             tweet.Id = nextTweetId;
@@ -60,7 +60,7 @@ namespace TweetService.Database
         }
 
         //Gets all tweets from the database
-        public List<Tweet> GetAllTweets()
+        public List<SharedMessages.Tweet> GetAllTweets()
         {
             return _context.Tweets.ToList();
         }

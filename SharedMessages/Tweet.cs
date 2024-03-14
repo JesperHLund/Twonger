@@ -1,4 +1,4 @@
-﻿namespace TweetService
+﻿namespace SharedMessages
 {
     public class Tweet
     {
