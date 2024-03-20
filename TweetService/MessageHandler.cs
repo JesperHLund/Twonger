@@ -17,12 +17,11 @@ namespace TweetService
 
             // Send a message containing all tweets
             _messageClient.Send(new AllTweetsMessage { Tweets = tweets }, "all-tweets-message");
+
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-
-            
 
             var messageClient = new MessageClient(
                 RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")

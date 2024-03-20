@@ -59,10 +59,10 @@ namespace TweetService.Database
             return tweet.Id;
         }
 
-        //Gets all tweets from the database
-        public List<SharedMessages.Tweet> GetAllTweets()
+        // Gets all tweets from the database for a specific user
+        public List<SharedMessages.Tweet> GetAllTweets(int userId)
         {
-            return _context.Tweets.ToList();
+            return _context.Tweets.Where(tweet => tweet.UserID == userId).ToList();
         }
     }
 
