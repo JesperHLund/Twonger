@@ -1,5 +1,6 @@
 ﻿using EasyNetQ;
 using SharedMessages;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TweetService
 {
@@ -7,10 +8,15 @@ namespace TweetService
     {
         private readonly MessageClient _messageClient;
 
+        private readonly Database.Database _database;
+
         public void HandleProfileMessage(ProfileMessage message)
         {
-            //Do something with the message
+            // Get all tweets from the database
+            List<SharedMessages.Tweet> tweets = _database.GetAllTweets();
 
+            // Send a message containing all tweets
+            _messageClient.Send(new AllTweetsMessage { Tweets = tweets }, "all-tweets-message");
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -22,7 +28,7 @@ namespace TweetService
                 RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")
                 );
 
-            messageClient.listen<ProfileMessage>(HandleProfileMessage, "profile-message");
+            messageClient.listen<ProfileMessage>(HandleProfileMessage, "get-all-tweets-message");
 
 
             while (!stoppingToken.IsCancellationRequested)

@@ -14,5 +14,10 @@
         public string Message { get; set; }
     }
 
+    public class AllTweetsMessage
+    {
+        public List<Tweet> Tweets { get; set; }
+    }
+
 
 }
