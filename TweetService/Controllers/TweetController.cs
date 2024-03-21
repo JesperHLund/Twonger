@@ -4,6 +4,9 @@ using TweetService;
 
 namespace TweetService.Controllers
 {
+
+    [Route("api/[controller]")]
+    [ApiController]
     public class TweetController : Controller
     {
 
@@ -17,7 +20,22 @@ namespace TweetService.Controllers
             _messageClient = messageClient;
         }
 
-        //PostTweet method that takes a tweet object and returns a boolean
+        // GET: api/tweet/userID/tweetID
+        [HttpGet("{userID}/{tweetID}")]
+        public ActionResult<IEnumerable<Tweet>> GetTweets(int userID, int tweetID)
+        {
+            List<Tweet> tweets = _database.GetNext100Tweets(userID, tweetID);
+
+            if (tweets == null || tweets.Count == 0)
+            {
+                return NotFound("No more tweets"); // Return 404 Not Found if no tweets are found
+            }
+
+            return tweets;
+        }
+
+        // PostTweet method that takes a tweet object and returns a boolean
+        // POST: api/tweet/PostTweet
         [HttpPost]
         public bool PostTweet([FromBody] SharedMessages.Tweet tweet)
         {

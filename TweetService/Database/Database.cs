@@ -48,5 +48,17 @@ namespace TweetService.Database
         {
             return _context.Tweets.Where(tweet => tweet.UserID == userId).ToList();
         }
+
+        // Gets all tweets from the database for a specific user within a specified ID range
+        public List<Tweet> GetNext100Tweets(int userId, int startId)
+        {
+            // Returns the next 100 tweets after the startId
+            return _context.Tweets
+                .Where(tweet => tweet.UserID == userId && tweet.Id < startId)
+                .OrderByDescending(tweet => tweet.Id) // Ensure tweets are ordered by ID in descending order (newest first)
+                .Take(100) // Take the next 100 tweets after the startId
+                .ToList(); //convert to list
+        }
+
     }
 }
