@@ -5,20 +5,22 @@ using System.Linq;
 
 namespace TweetService.Database
 {
-    public class TweetContext : DbContext
-    {
-        // Database Tweet sets
-        public DbSet<Tweet> Tweets { get; set; }
-
-        // Constructor
-        public TweetContext(DbContextOptions<TweetContext> options)
-            : base(options)
-        {
-        }
-    }
+    
 
     public class Database
     {
+        public class TweetContext : DbContext
+        {
+            // Database Tweet sets
+            public DbSet<Tweet> Tweets { get; set; }
+
+            // Constructor
+            public TweetContext(DbContextOptions<TweetContext> options)
+                : base(options)
+            {
+            }
+        }
+
         // Database context
         private readonly TweetContext _context;
 

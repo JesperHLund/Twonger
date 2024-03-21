@@ -17,6 +17,7 @@ namespace TweetService.Controllers
             _messageClient = messageClient;
         }
 
+        //PostTweet method that takes a tweet object and returns a boolean
         [HttpPost]
         public bool PostTweet([FromBody] SharedMessages.Tweet tweet)
         {
