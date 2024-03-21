@@ -1,18 +1,20 @@
-﻿namespace SharedMessages
-{
-    public class Tweet
+﻿    using System.ComponentModel.DataAnnotations;
+
+    namespace SharedMessages
     {
-        
-        public int Id { get; set; }
-        public string Body { get; set; }
-        public int UserID { get; set; }
-
-        public Tweet(int id, string body, int userID)
+        public class Tweet
         {
-            Id = id;
-            Body = body;
-            UserID = userID;
-        }
+            [Key]
+            public int Id { get; set; }
+            public string Body { get; set; }
+            public int UserID { get; set; }
 
+            public Tweet(int id, string body, int userID)
+            {
+                Id = id;
+                Body = body;
+                UserID = userID;
+            }
+
+        }
     }
-}
