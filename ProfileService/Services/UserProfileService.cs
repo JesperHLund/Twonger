@@ -1,5 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using ProfileService;
+using ProfileService.Database;
+using SharedMessages;
+using Newtonsoft.Json;
 
 public interface IProfileService
 {
@@ -9,11 +13,12 @@ public interface IProfileService
     void DeleteProfile(int userId);
 }
 
-public class ProfileService : IProfileService
+public class UserProfileService : IProfileService
 {
-    private readonly ProfileContext _context;
+    private readonly Database.ProfileContext _context;
+    private readonly HttpClient _httpClient;
 
-    public ProfileService(ProfileContext context)
+    public UserProfileService(Database.ProfileContext context)
     {
         _context = context;
     }
@@ -49,6 +54,20 @@ public class ProfileService : IProfileService
         {
             _context.Profiles.Remove(profile);
             _context.SaveChanges();
+        }
+    }
+
+    public async Task GetMoreTweets(int userId, int tweetId)
+    {
+        var profile = _context.Profiles.Find(userId);
+        if (profile == null) return;
+        var response = await _httpClient.GetAsync($"http://localhost:5271/api/tweet/{userId}/{tweetId}");
+        response.EnsureSuccessStatusCode();
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var tweets = JsonConvert.DeserializeObject<List<Tweet>>(responseContent);
+        foreach (var tweet in tweets)
+        {
+            profile.Twongs.Add(tweet.Id, tweet.Body);
         }
     }
 }
