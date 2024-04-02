@@ -1,75 +1,64 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.InMemory;
+using SharedMessages;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace TweetService.Database
 {
+    
+
     public class Database
     {
         public class TweetContext : DbContext
         {
-
-            //Database Tweet sets
+            // Database Tweet sets
             public DbSet<Tweet> Tweets { get; set; }
 
-            //Database NextTweetId sets
-            public DbSet<NextTweetId> NextTweetIds { get; set; }
-
-            //Constructor
+            // Constructor
             public TweetContext(DbContextOptions<TweetContext> options)
                 : base(options)
             {
             }
-
-            //Seeds the database with the next tweet id
-            protected override void OnModelCreating(ModelBuilder modelBuilder)
-            {
-                modelBuilder.Entity<NextTweetId>().HasData(new NextTweetId { Id = 1, NextId = 0 });
-            }
         }
 
-        //Database context
+        // Database context
         private readonly TweetContext _context;
 
-        //Constructor
+        // Constructor
         public Database(TweetContext context)
         {
             _context = context;
         }
 
-        //Adds a tweet to the database
+        // Adds a tweet to the database
         public int AddTweet(Tweet tweet)
         {
-            var nextTweetId = _context.NextTweetIds.First().NextId;
-            tweet.Id = nextTweetId;
-
-            //Adds the tweet to the database
+            // Adds the tweet to the database
             _context.Tweets.Add(tweet);
 
-            //Saves the changes to the database
+            // Saves the changes to the database
             _context.SaveChanges();
 
-            //Increments the next tweet id
-            _context.NextTweetIds.First().NextId++;
-
-            //Saves the changes to the database
-            _context.SaveChanges(); 
-            //Returns the id of the tweet if tweet is added
+            // Returns the id of the tweet if tweet is added
             return tweet.Id;
         }
 
-        //Gets all tweets from the database
-        public List<Tweet> GetAllTweets()
+        // Gets all tweets from the database for a specific user
+        public List<Tweet> GetAllTweets(int userId)
         {
-            return _context.Tweets.ToList();
+            return _context.Tweets.Where(tweet => tweet.UserID == userId).ToList();
         }
-    }
 
-    //NextTweetId class
-    public class NextTweetId
-    {
-        public int Id { get; set; }
-        public int NextId { get; set; }
+        // Gets all tweets from the database for a specific user within a specified ID range
+        public List<Tweet> GetNext100Tweets(int userId, int startId)
+        {
+            // Returns the next 100 tweets after the startId
+            return _context.Tweets
+                .Where(tweet => tweet.UserID == userId && tweet.Id < startId)
+                .OrderByDescending(tweet => tweet.Id) // Ensure tweets are ordered by ID in descending order (newest first)
+                .Take(100) // Take the next 100 tweets after the startId
+                .ToList(); //convert to list
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using EasyNetQ;
 using SharedMessages;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TweetService
 {
@@ -7,28 +8,17 @@ namespace TweetService
     {
         private readonly MessageClient _messageClient;
 
-        public void HandleProfileMessage(ProfileMessage message)
+        private readonly Database.Database _database;
+
+        public void HandleProfileMessage()
         {
-            //Do something with the message
+            
 
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
 
-            
-
-            var messageClient = new MessageClient(
-                RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")
-                );
-
-            messageClient.listen<ProfileMessage>(HandleProfileMessage, "profile-message");
-
-
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                await Task.Delay(1000, stoppingToken);
-            }   
 
         }
     }

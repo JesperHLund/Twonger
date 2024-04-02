@@ -7,9 +7,9 @@
         public string Username { get; set; }
         public string DisplayName {get; set;}
 
-        public Dictionary<string, string> Twongs { get; set; } = new Dictionary<string, string>(100);
+        public Dictionary<int, string> Twongs { get; set; } = new Dictionary<int, string>(100);
 
-        public Profile(int userId, string bio, string username, string displayName, Dictionary<string, string> twongs)
+        public Profile(int userId, string bio, string username, string displayName, Dictionary<int, string> twongs)
         {
             UserId = userId;
             Bio = bio;
