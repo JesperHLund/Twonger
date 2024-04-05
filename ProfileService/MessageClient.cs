@@ -12,7 +12,7 @@ namespace ProfileService
             _bus = bus;
         }
 
-        public void Send<T>(T tweet, string topic)
+        public void Send<T>(T tweet, string topic) 
         {
             _bus.PubSub.Publish(tweet, topic);
         }
