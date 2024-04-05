@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TweetService", "TweetServic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProfileService", "ProfileService\ProfileService.csproj", "{0B725BDE-765E-4FF4-8D12-C284CB0CE8A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedMessages", "SharedMessages\SharedMessages.csproj", "{A4C09D86-6DD8-4373-9F74-FB6E6B2FD74E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedMessages", "SharedMessages\SharedMessages.csproj", "{A4C09D86-6DD8-4373-9F74-FB6E6B2FD74E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
