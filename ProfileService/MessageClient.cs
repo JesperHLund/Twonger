@@ -1,3 +1,4 @@
+
 using EasyNetQ;
 
 namespace ProfileService
@@ -16,7 +17,7 @@ namespace ProfileService
             _bus.PubSub.Publish(tweet, topic);
         }
 
-        public void listen<T>(Action<T> handler, string topic)
+        public void Listen<T>(Action<T> handler, string topic)
         {
             _bus.PubSub.Subscribe(topic, handler);
         }
