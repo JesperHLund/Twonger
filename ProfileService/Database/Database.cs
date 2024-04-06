@@ -7,6 +7,7 @@ namespace ProfileService.Database
     {
         public class ProfileContext : DbContext
         {
+            public ProfileContext(DbContextOptions<ProfileContext> options) : base(options) { }
             public DbSet<Profile> Profiles { get; set; }
 
             private int profileId = 0;
@@ -19,11 +20,8 @@ namespace ProfileService.Database
             public void AddProfile(Profile profile)
             {
                 profile.UserId = profileId++;
-                using(var context = new ProfileContext())
-                {
-                    context.Profiles.Add(profile);
-                    context.SaveChanges();
-                }
+                Profiles.Add(profile);
+                SaveChanges();
             }
         }
     }
