@@ -1,26 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SharedMessages;
+using System.Collections.Generic;
 using TweetService;
 
 namespace TweetService.Controllers
 {
-
-    [Route("api/[controller]")]
     [ApiController]
     public class TweetController : Controller
     {
-
         private readonly Database.Database _database;
-
         private readonly MessageClient _messageClient;
 
         //Constructor
-        public TweetController(Database.Database database, MessageClient messageClient) {
+        public TweetController(Database.Database database, MessageClient messageClient)
+        {
             _database = database;
             _messageClient = messageClient;
         }
 
-        // GET: api/tweet/userID/tweetID
+        // GET: /{userID}/{tweetID}
         [HttpGet("{userID}/{tweetID}")]
         public ActionResult<IEnumerable<Tweet>> GetTweets(int userID, int tweetID)
         {
@@ -34,28 +32,26 @@ namespace TweetService.Controllers
             return tweets;
         }
 
-        // PostTweet method that takes a tweet object and returns a boolean
-        // POST: api/tweet/PostTweet
-        [HttpPost]
+        // POST: /posttweet
+        [HttpPost("posttweet")]
         public bool PostTweet([FromBody] SharedMessages.Tweet tweet)
         {
-            //Attempts to add tweet to database and takes the returned value and adds it to the tweetId variable
+            // Attempts to add tweet to database and takes the returned value and adds it to the tweetId variable
             int tweetId = _database.AddTweet(tweet);
 
-            //if tweet id is not -1, then it was added successfully, we can send it to the message client and return true
+            // If tweet id is not -1, then it was added successfully, we can send it to the message client and return true
             if (tweetId != -1)
             {
                 tweet.Id = tweetId;
 
-
                 _messageClient.Send(
                     new TweetMessage { tweet = tweet },
                     "tweet-message"
-                    );
+                );
 
                 return true;
             }
-            //if tweet id is -1, then it was not added successfully and we return false
+            // If tweet id is -1, then it was not added successfully and we return false
             else
             {
                 // Tweet was not added
