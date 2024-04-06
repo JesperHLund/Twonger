@@ -1,4 +1,6 @@
-﻿namespace ProfileService
+﻿using SharedMessages;
+
+namespace ProfileService
 {
     public class Profile
     {
@@ -7,9 +9,9 @@
         public string Username { get; set; }
         public string DisplayName {get; set;}
 
-        public Dictionary<int, string> Twongs { get; set; } = new Dictionary<int, string>(100);
+        public List<Tweet> Twongs { get; set; } = new List<Tweet>();
 
-        public Profile(int userId, string bio, string username, string displayName, Dictionary<int, string> twongs)
+        public Profile(int userId, string bio, string username, string displayName, List<Tweet> twongs)
         {
             UserId = userId;
             Bio = bio;

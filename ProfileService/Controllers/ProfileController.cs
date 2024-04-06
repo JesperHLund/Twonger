@@ -9,6 +9,7 @@ namespace ProfileService.Controllers
     {
         private readonly ILogger<ProfileController> _logger;
         private readonly List<Profile> _profiles;
+        private readonly MessageClient _messageClient;
 
         public ProfileController(ILogger<ProfileController> logger)
         {
