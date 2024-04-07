@@ -10,6 +10,7 @@
 **/.vscode
 **/*.*proj.user
 **/*.dbmdl
+.idea
 **/*.jfm
 **/azds.yaml
 **/bin
