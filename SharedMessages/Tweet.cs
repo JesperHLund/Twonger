@@ -13,7 +13,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
             public Tweet(int? id, string body, int userID)
             {
-                Id = id ?? null;
+                Id = id ?? 0;
                 Body = body;
                 UserID = userID;
             }
