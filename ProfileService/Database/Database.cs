@@ -69,6 +69,24 @@ namespace ProfileService.Database
                 Profiles.Add(profile);
                 SaveChanges();
             }
+
+            public void AddTweetToUser(int userId, Tweet tweet)
+            {
+                Console.WriteLine("Adding tweet to user with id: " + userId);
+                var user = Profiles.FirstOrDefault(p => p.UserId == userId);
+                Console.WriteLine("User found: " + user);
+
+                if (user != null)
+                {
+                    user.Twongs.Add(tweet);
+                    SaveChanges();
+                }
+                else
+                {
+                    // Handle case where user with the given userId doesn't exist
+                    Console.WriteLine("User not found.");
+                }
+            }
         }
     }
 }

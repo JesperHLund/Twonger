@@ -13,11 +13,21 @@ namespace ProfileService
 
         public void HandleTweetMessage(TweetMessage tweetMessage)
         {
+            Console.WriteLine("Received tweet message");
+            Console.WriteLine("Tweet id: " + tweetMessage.tweet.Id + ", tweet body: " + tweetMessage.tweet.Body + ", tweet userid: " + tweetMessage.tweet.UserID);
+
             var profile = _profileService.GetProfileById(tweetMessage.tweet.UserID);
+            Console.WriteLine("Profile id: " + profile.UserId + ", profile username: " + profile.Username + ", profile bio: " + profile.Bio);
             if (profile != null)
             {
+
+                Console.WriteLine("Adding tweet to profile");
+                Console.WriteLine("Profile id: " + profile.UserId + ", profile username: " + profile.Username + ", profile bio: " + profile.Bio);
+                Console.WriteLine("Profile tweet count: " + profile.Twongs.Count);
+                Console.WriteLine("Tweet id: " + tweetMessage.tweet.Id + ", tweet body: " + tweetMessage.tweet.Body + ", tweet body: " + tweetMessage.tweet.Id);
                 profile.Twongs.Add(tweetMessage.tweet);
-                _database.SaveChanges(); // Save changes to the database
+                _database.AddTweetToUser(profile.UserId, tweetMessage.tweet);
+                //_database.SaveChanges(); // Save changes to the database
             }
         }
 

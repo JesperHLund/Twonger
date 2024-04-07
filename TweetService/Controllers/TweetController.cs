@@ -44,7 +44,8 @@ namespace TweetService.Controllers
                 if (tweetId != -1)
                 {
                     tweet.Id = tweetId;
-
+                    Console.WriteLine("Sending tweet message");
+                    Console.WriteLine("Tweet id: " + tweet.Id + ", tweet body: " + tweet.Body + ", tweet userid: " + tweet.UserID);
                     _messageClient.Send(
                         new TweetMessage { tweet = tweet },
                         "New Tweet"

@@ -44,6 +44,8 @@ public class UserProfileService : IProfileService
 
     public Profile GetProfileById(int userId)
     {
+        Console.WriteLine("Getting profile with id: " + userId);
+        Console.WriteLine("Profiles: " + _context.Profiles.Count());
         return _context.Profiles.Find(userId);
     }
 
