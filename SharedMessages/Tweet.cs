@@ -11,9 +11,8 @@ using System.ComponentModel.DataAnnotations.Schema;
             public string Body { get; set; }
             public int UserID { get; set; }
 
-            public Tweet(int? id, string body, int userID)
+            public Tweet(string body, int userID)
             {
-                Id = id ?? 0;
                 Body = body;
                 UserID = userID;
             }
