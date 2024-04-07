@@ -27,7 +27,7 @@ namespace ProfileService
                 Console.WriteLine("Tweet id: " + tweetMessage.tweet.Id + ", tweet body: " + tweetMessage.tweet.Body + ", tweet body: " + tweetMessage.tweet.Id);
                 profile.Twongs.Add(tweetMessage.tweet);
                 _database.AddTweetToUser(profile.UserId, tweetMessage.tweet);
-                //_database.SaveChanges(); // Save changes to the database
+                _database.SaveChanges(); // Save changes to the database
             }
         }
 
