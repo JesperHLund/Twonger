@@ -19,7 +19,7 @@ namespace TweetService.Controllers
             _messageClient = messageClient;
         }
 
-        // GET: /{userID}/{tweetID}
+        // GET: api/tweet/{userID}/{tweetID}
         [HttpGet("{userID}/{tweetID}")]
         public ActionResult<IEnumerable<Tweet>> GetTweets(int userID, int tweetID)
         {
@@ -33,7 +33,7 @@ namespace TweetService.Controllers
             return tweets;
         }
 
-        // POST: /posttweet
+        // POST: api/tweet/posttweet
         [HttpPost("postTweet")]
         public IActionResult PostTweet([FromBody] SharedMessages.Tweet tweet)
         {

@@ -8,7 +8,13 @@ namespace ProfileService.Database
     {
         public class ProfileContext : DbContext
         {
-            public ProfileContext(DbContextOptions<ProfileContext> options) : base(options) { }
+            public ProfileContext(DbContextOptions<ProfileContext> options) : base(options) {
+                // Seed the database if it's empty
+                if (!Profiles.Any())
+                {
+                    SeedData();
+                }
+            }
             public DbSet<Profile> Profiles { get; set; }
 
             private int profileId = 0;
@@ -16,13 +22,6 @@ namespace ProfileService.Database
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
                 optionsBuilder.UseInMemoryDatabase("Database");
-                {
-                    // Seed the database if it's empty
-                    if (!Profiles.Any())
-                    {
-                        SeedData();
-                    }
-                }
 
             }
 
