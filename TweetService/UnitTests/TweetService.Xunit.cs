@@ -41,7 +41,7 @@ namespace TweetService.Tests
             var database = new Database.Database(databaseMock.Object);
             var messageClientMock = new Mock<MessageClient>();
 
-            var tweet = new SharedMessages.Tweet("Test tweet", 123); // Corrected
+            var tweet = new SharedMessages.Tweet("Test tweet", 123); 
 
             var tweetController = new TweetController(database, messageClientMock.Object);
 
@@ -65,13 +65,13 @@ namespace TweetService.Tests
             var database = new Database.Database(databaseMock.Object);
             var messageClientMock = new Mock<MessageClient>();
 
-            var tweet = new SharedMessages.Tweet("Test tweet", 123); // Corrected
+            var tweet = new SharedMessages.Tweet("Test tweet", 123);
 
             var tweetController = new TweetController(database, messageClientMock.Object);
 
             // Setup mock behavior
             databaseMock.Setup(db => db.Tweets.Add(It.IsAny<Tweet>())).Verifiable();
-            databaseMock.Setup(db => db.SaveChanges()).Returns(0);
+            databaseMock.Setup(db => db.SaveChanges()).Returns(-1);
 
             // Act
             var result = tweetController.PostTweet(tweet);
