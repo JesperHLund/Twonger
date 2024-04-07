@@ -1,5 +1,6 @@
 ﻿
 using EasyNetQ;
+using SharedMessages;
 
 namespace TweetService
 {
