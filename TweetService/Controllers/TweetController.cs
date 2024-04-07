@@ -6,6 +6,7 @@ using TweetService;
 namespace TweetService.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public class TweetController : Controller
     {
         private readonly Database.Database.TweetContext _tweetContext;

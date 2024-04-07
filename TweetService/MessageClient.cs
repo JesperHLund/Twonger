@@ -1,11 +1,11 @@
 ﻿
 using EasyNetQ;
-using SharedMessages;
 
 namespace TweetService
 {
     public class MessageClient
     {
+        // The IBus allows us to listen for and send messages with RabbitMQ
         private readonly IBus _bus;
 
         public MessageClient(IBus bus)
