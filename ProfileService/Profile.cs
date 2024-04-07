@@ -1,11 +1,13 @@
 ﻿using SharedMessages;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProfileService
 {
     public class Profile
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string Bio { get; set; }
         public string Username { get; set; }

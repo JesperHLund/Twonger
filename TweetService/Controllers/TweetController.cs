@@ -34,29 +34,34 @@ namespace TweetService.Controllers
         }
 
         // POST: /posttweet
-        [HttpPost("posttweet")]
-        public bool PostTweet([FromBody] SharedMessages.Tweet tweet)
+        [HttpPost("postTweet")]
+        public IActionResult PostTweet([FromBody] SharedMessages.Tweet tweet)
         {
-            // Attempts to add tweet to database and takes the returned value and adds it to the tweetId variable
-            int tweetId = _tweetContext.AddTweet(tweet);
-
-            // If tweet id is not -1, then it was added successfully, we can send it to the message client and return true
-            if (tweetId != -1)
+            try
             {
-                tweet.Id = tweetId;
+                int tweetId = _tweetContext.AddTweet(tweet);
 
-                _messageClient.Send(
-                    new TweetMessage { tweet = tweet },
-                    "tweet-message"
-                );
+                if (tweetId != -1)
+                {
+                    tweet.Id = tweetId;
 
-                return true;
+                    _messageClient.Send(
+                        new TweetMessage { tweet = tweet },
+                        "New Tweet"
+                    );
+
+                    return Ok(true);
+                }
+                else
+                {
+                    return BadRequest(false);
+                }
             }
-            // If tweet id is -1, then it was not added successfully and we return false
-            else
+            catch (Exception ex)
             {
-                // Tweet was not added
-                return false;
+                // Log the exception details
+                Console.WriteLine(ex.ToString());
+                return StatusCode(500, "Internal server error");
             }
         }
     }
