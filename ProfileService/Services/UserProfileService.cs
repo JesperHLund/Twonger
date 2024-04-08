@@ -23,6 +23,11 @@ public class UserProfileService : IProfileService
         _context = context;
     }
 
+    public void SaveChanges()
+    {
+        _context.SaveChanges();
+    }
+
     public Profile AddProfile(Profile profile)
     {
         _context.Profiles.Add(profile);

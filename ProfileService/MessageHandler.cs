@@ -1,4 +1,5 @@
 using EasyNetQ;
+using Microsoft.EntityFrameworkCore;
 using SharedMessages;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -41,31 +42,36 @@ namespace ProfileService
                 Console.WriteLine("Profile id: " + profile.UserId + ", profile username: " + profile.Username + ", profile bio: " + profile.Bio);
                 if (profile != null)
                 {
-                    if (profile.Twongs == null)
+                    /*if (profile.Twongs == null)
                     {
                         Console.WriteLine("Twongs list is null. Initializing it.");
                         profile.Twongs = new List<Tweet>();
-                    }
+                    }*/
 
                     Console.WriteLine("Adding tweet to profile");
                     Console.WriteLine("Profile id: " + profile.UserId + ", profile username: " + profile.Username + ", profile bio: " + profile.Bio + "Tweets in this profile: " + string.Join(", ", profile.Twongs.Select(t => t.Body)));
                     Console.WriteLine("Profile tweet count before adding: " + profile.Twongs.Count);
-                    profile.Twongs.Add(tweetMessage.tweet);
+
+                    Console.WriteLine($"Adding tweet to profile : {tweetMessage.tweet.Id}, {tweetMessage.tweet.Body},{tweetMessage.tweet.Id}");
+
+                    profile.Twongs.Add(new Tweet{Id=tweetMessage.tweet.Id, Body=tweetMessage.tweet.Body, UserID = tweetMessage.tweet.UserID});
+
                     Console.WriteLine("Twongs in profile after adding: " + string.Join(", ", profile.Twongs.Select(t => t.Body)));
                     Console.WriteLine(string.Join(", ", profile.Twongs.Select(t => t.Body)));
                     Console.WriteLine("Profile tweet count after adding: " + profile.Twongs.Count);
 
-      //              _database.AddTweetToUser(profile.UserId, tweetMessage.tweet);
-         //           Console.WriteLine("Passed the AddTweetToUser method call");
+                    //              _database.AddTweetToUser(profile.UserId, tweetMessage.tweet);
+                    //           Console.WriteLine("Passed the AddTweetToUser method call");
                     // Retrieve the profile from the database again to ensure it's being tracked by the Entity Framework context
-         //           profile = _profileService.GetProfileById(tweetMessage.tweet.UserID);
+                    //           profile = _profileService.GetProfileById(tweetMessage.tweet.UserID);
 
-                    _database.SaveChanges(); // Save changes to the database
+                    _profileService.SaveChanges(); // Save changes to the database
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Exception in HandleTweetMessage: " + ex.Message);
+                Console.WriteLine(ex.StackTrace);
             }
         }
 

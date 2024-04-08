@@ -13,7 +13,7 @@ namespace ProfileService
         public string Username { get; set; }
         public string DisplayName {get; set;}
 
-        public List<Tweet> Twongs { get; set; } = new List<Tweet>();
+        public List<Tweet> Twongs { get; set; }
 
         
         // Parameterless constructor for Entity Framework
