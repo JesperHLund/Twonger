@@ -11,19 +11,7 @@ services:
         ports:
             - "5672:5672"
             - "15672:15672"
-    SharedMessages:
-        image: shared-messages
-        environment:
-        - EASYNETQ_CONNECTION_STRING=host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest
-        build:
-            context: .
-            dockerfile: SharedMessages/Dockerfile
-        ports:
-            - "8082:8082"
-        depends_on:
-            rabbitmq:
-                condition: service_healthy
-     
+    
     profileservice:
         image: profile-service
         build:
@@ -31,6 +19,8 @@ services:
             dockerfile: ProfileService/Dockerfile
         ports:
             - "8080:8080"
+        environment:
+            - ASPNETCORE_URLS=http://+:8080
         depends_on:
             rabbitmq:
                 condition: service_healthy
@@ -41,14 +31,9 @@ services:
             context: .
             dockerfile: TweetService/Dockerfile
         ports:
-        - "8081:8081"
+            - "8081:8081"
+        environment:
+            - ASPNETCORE_URLS=http://+:8081
         depends_on:
             rabbitmq:
                 condition: service_healthy
-    
-
-
-    
-        
-    
-    

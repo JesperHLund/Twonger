@@ -9,7 +9,7 @@ public interface IProfileService
 {
     Profile AddProfile(Profile profile);
     Profile UpdateProfile(Profile profile);
-    Profile GetProfile(int userId);
+    Profile GetProfileById(int userId);
     void DeleteProfile(int userId);
 }
 
@@ -42,8 +42,10 @@ public class UserProfileService : IProfileService
         return existingProfile;
     }
 
-    public Profile GetProfile(int userId)
+    public Profile GetProfileById(int userId)
     {
+        Console.WriteLine("Getting profile with id: " + userId);
+        Console.WriteLine("Profiles: " + _context.Profiles.Count());
         return _context.Profiles.Find(userId);
     }
 
@@ -67,7 +69,7 @@ public class UserProfileService : IProfileService
         var tweets = JsonConvert.DeserializeObject<List<Tweet>>(responseContent);
         foreach (var tweet in tweets)
         {
-            profile.Twongs.Add(tweet.Id, tweet.Body);
+            profile.Twongs.Add(tweet);
         }
     }
 }

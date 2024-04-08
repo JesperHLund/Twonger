@@ -1,34 +1,38 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 
 namespace ProfileService.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class ProfileController : Controller
     {
         private readonly ILogger<ProfileController> _logger;
         private readonly List<Profile> _profiles;
+        private readonly MessageClient _messageClient;
+        private readonly ProfileService.Database.Database.ProfileContext _context;
 
-        public ProfileController(ILogger<ProfileController> logger)
+        public ProfileController(ILogger<ProfileController> logger,
+            ProfileService.Database.Database.ProfileContext context)
         {
             _logger = logger;
-            _profiles = new List<Profile>();
+            _context = context;
         }
 
-        [HttpPost]
-        public IActionResult CreateProfile(Profile profile){
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateProfile(Profile profile)
+        {
             try
             {
                 // Check if the profile already exists in the database
-                var existingProfile = _profiles.Find(p => p.UserId == profile.UserId);
+                var existingProfile = await _context.Profiles.FindAsync(profile.UserId);
                 if (existingProfile != null)
                 {
                     return Conflict();
                 }
 
                 // Add the profile to the database
-                _profiles.Add(profile);
+                _context.Profiles.Add(profile);
+                await _context.SaveChangesAsync();
 
                 return Ok();
             }
@@ -39,13 +43,13 @@ namespace ProfileService.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult UpdateProfile(Profile profile)
+        [HttpPost("update/{userId}")]
+        public async Task<IActionResult> UpdateProfile(Profile profile)
         {
             try
             {
                 // Check if the profile exists in the database
-                var existingProfile = _profiles.Find(p => p.UserId == profile.UserId);
+                var existingProfile = await _context.Profiles.FindAsync(profile.UserId);
                 if (existingProfile == null)
                 {
                     return NotFound();
@@ -54,6 +58,9 @@ namespace ProfileService.Controllers
                 // Update the profile
                 existingProfile.Bio = profile.Bio;
                 existingProfile.Username = profile.Username;
+
+                // Save changes to the database
+                await _context.SaveChangesAsync();
 
                 return Ok();
             }
@@ -64,12 +71,13 @@ namespace ProfileService.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult GetProfile(int userId){
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetProfile(int userId)
+        {
             try
             {
                 // Check if the profile exists in the database
-                var profile = _profiles.Find(p => p.UserId == userId);
+                var profile = await _context.Profiles.FindAsync(userId);
                 if (profile == null)
                 {
                     return NotFound();
