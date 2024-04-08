@@ -9,13 +9,13 @@ namespace ProfileService.Controllers
         private readonly ILogger<ProfileController> _logger;
         private readonly List<Profile> _profiles;
         private readonly MessageClient _messageClient;
-        private readonly ProfileService.Database.Database.ProfileContext _context;
+        private readonly UserProfileService _userProfileService;
 
         public ProfileController(ILogger<ProfileController> logger,
-            ProfileService.Database.Database.ProfileContext context)
+            UserProfileService userProfileService)
         {
             _logger = logger;
-            _context = context;
+            _userProfileService = userProfileService;
         }
 
         [HttpPost("create")]
@@ -24,15 +24,15 @@ namespace ProfileService.Controllers
             try
             {
                 // Check if the profile already exists in the database
-                var existingProfile = await _context.Profiles.FindAsync(profile.UserId);
+                var existingProfile = _userProfileService.GetProfileById(profile.UserId);
                 if (existingProfile != null)
                 {
                     return Conflict();
                 }
 
                 // Add the profile to the database
-                _context.Profiles.Add(profile);
-                await _context.SaveChangesAsync();
+                _userProfileService.AddProfile(profile);
+                _userProfileService.SaveChanges();
 
                 return Ok();
             }
@@ -49,7 +49,7 @@ namespace ProfileService.Controllers
             try
             {
                 // Check if the profile exists in the database
-                var existingProfile = await _context.Profiles.FindAsync(profile.UserId);
+                var existingProfile = _userProfileService.GetProfileById(profile.UserId);
                 if (existingProfile == null)
                 {
                     return NotFound();
@@ -60,7 +60,7 @@ namespace ProfileService.Controllers
                 existingProfile.Username = profile.Username;
 
                 // Save changes to the database
-                await _context.SaveChangesAsync();
+                _userProfileService.SaveChanges();
 
                 return Ok();
             }
@@ -77,7 +77,7 @@ namespace ProfileService.Controllers
             try
             {
                 // Check if the profile exists in the database
-                var profile = await _context.Profiles.FindAsync(userId);
+                var profile = _userProfileService.GetProfileById(userId);
                 if (profile == null)
                 {
                     return NotFound();
