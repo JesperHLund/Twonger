@@ -88,25 +88,22 @@ namespace ProfileService.Database
                 return existingProfile;
             }
 
+            public void DeleteProfile(int userId)
+            {
+                var profile = Profiles.Find(userId);
+                if (profile != null)
+                {
+                    Profiles.Remove(profile);
+                    SaveChanges();
+                }
+            }
+
             public Profile GetProfileById(int userId)
             {
                 return Profiles.Find(userId);
             }
 
-            public async Task GetMoreTweets(int userId, int tweetId)
-            {
-                var profile = Profiles.Find(userId);
-                if (profile == null) return;
-                var response = await _httpClient.GetAsync($"http://localhost:5271/api/tweet/{userId}/{tweetId}");
-                response.EnsureSuccessStatusCode();
-                var responseContent = await response.Content.ReadAsStringAsync();
-                var tweets = JsonConvert.DeserializeObject<List<Tweet>>(responseContent);
-                foreach (var tweet in tweets)
-                {
-                    profile.Twongs.Add(tweet);
-                }
-            }
-
+           
         }
     }
 }

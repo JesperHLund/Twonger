@@ -45,16 +45,20 @@ public class UserProfileService : IProfileService
 
     public void DeleteProfile(int userId)
     {
-        var profile = _context.Profiles.Find(userId);
-        if (profile != null)
-        {
-            _context.Profiles.Remove(profile);
-            _context.SaveChanges();
-        }
+        _context.DeleteProfile(userId);
     }
 
     public async Task GetMoreTweets(int userId, int tweetId)
     {
-        await _context.GetMoreTweets(userId, tweetId);
+        var profile = _context.Profiles.Find(userId);
+        if (profile == null) return;
+        var response = await _httpClient.GetAsync($"http://localhost:5271/api/tweet/{userId}/{tweetId}");
+        response.EnsureSuccessStatusCode();
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var tweets = JsonConvert.DeserializeObject<List<Tweet>>(responseContent);
+        foreach (var tweet in tweets)
+        {
+            profile.Twongs.Add(tweet);
+        }
     }
 }
