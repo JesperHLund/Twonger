@@ -25,28 +25,17 @@ public class UserProfileService : IProfileService
 
     public Profile AddProfile(Profile profile)
     {
-        _context.Profiles.Add(profile);
-        _context.SaveChanges();
-        return profile;
+        return _context.AddProfile(profile);
     }
 
     public Profile UpdateProfile(Profile profile)
     {
-        var existingProfile = _context.Profiles.Find(profile.UserId);
-        if (existingProfile != null)
-        {
-            existingProfile.Username = profile.Username;
-            existingProfile.Bio = profile.Bio;
-            _context.SaveChanges();
-        }
-        return existingProfile;
+        return _context.UpdateProfile(profile);
     }
 
     public Profile GetProfileById(int userId)
     {
-        Console.WriteLine("Getting profile with id: " + userId);
-        Console.WriteLine("Profiles: " + _context.Profiles.Count());
-        return _context.Profiles.Find(userId);
+        return _context.GetProfileById(userId);
     }
 
     public void DeleteProfile(int userId)
@@ -61,15 +50,6 @@ public class UserProfileService : IProfileService
 
     public async Task GetMoreTweets(int userId, int tweetId)
     {
-        var profile = _context.Profiles.Find(userId);
-        if (profile == null) return;
-        var response = await _httpClient.GetAsync($"http://localhost:5271/api/tweet/{userId}/{tweetId}");
-        response.EnsureSuccessStatusCode();
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var tweets = JsonConvert.DeserializeObject<List<Tweet>>(responseContent);
-        foreach (var tweet in tweets)
-        {
-            profile.Twongs.Add(tweet);
-        }
+        await _context.GetMoreTweets(userId, tweetId);
     }
 }
